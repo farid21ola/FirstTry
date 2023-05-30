@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 200f;
     public bool ground;
 
+    private bool doJump = false;
+
     public Rigidbody rb;
     private void GetInput()
     {
@@ -35,7 +37,7 @@ public class PlayerController : MonoBehaviour
         {
             if(ground == true)
             {
-                rb.AddForce(transform.up * jumpForce);
+                doJump = true;
             }
         }
     }
@@ -43,6 +45,15 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         GetInput();
+    }
+
+    private void FixedUpdate()
+    {
+        if (doJump == true)
+        {
+            rb.AddForce(transform.up * jumpForce);
+            doJump = false;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
